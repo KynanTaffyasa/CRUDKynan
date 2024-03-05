@@ -5,18 +5,19 @@ const mysql = require('mysql');
 const app = express();
 const port = 3000;
 
-// Middleware
+// Middleware for parsing JSON bodies
 app.use(bodyParser.json());
 
-// Database connection
+// MySQL connection configuration
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'muhammad110975',
     database: 'crud_api',
     multipleStatements: true
 });
 
+// Connect to MySQL
 connection.connect((error) => {
     if (error) {
         console.error('Error connecting to database:', error);
@@ -74,7 +75,7 @@ app.delete('/users/:id', (request, response) => {
     });
 });
 
-// Start server
+// Start the server
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
