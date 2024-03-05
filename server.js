@@ -20,7 +20,7 @@ connection.connect((error) => {
     if (error){
         console.error(error);
     } else {
-        console.log('Connected to the database');
+        console.log('Connected to the database, you can now use such as Postman API');
     }
 });
 
@@ -39,14 +39,14 @@ app.get('/users', (request, response) => {
 });
 
 app.post('/users', (request, response) => {
-    const { name, email } = request.body;
+    const { name, email, age} = request.body;
     
     // Check if name and email are provided
-    if (!name || !email) {
+    if (!name || !email || !age) {
         return response.status(400).send('Name and email are required');
     }
 
-    connection.query('INSERT INTO users (name, email) VALUES (?, ?)', [name, email], (error, results) => {
+    connection.query('INSERT INTO users (name, age, email) VALUES (?, ?, ?)', [name, age, email], (error, results) => {
         if (error) {
             console.error('Error creating user:', error);
             return response.status(500).send('Error creating user');
@@ -59,8 +59,8 @@ app.post('/users', (request, response) => {
 
 app.put('/users/:id', (request, response) => {
     const { id } = request.params;
-    const { name, email } = request.body;
-    connection.query('UPDATE users SET name = ?, email = ? WHERE id = ?', [name, email, id], (error) => {
+    const { name, email, age } = request.body;
+    connection.query('UPDATE users SET name = ?, age = ?, email = ? WHERE id = ?', [name, age, email, id], (error) => {
         if (error) {
             console.error(error);
             response.status(500).send('Error updating user');
